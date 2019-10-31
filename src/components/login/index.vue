@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <el-card>
-      <img src="../../assets/logo_index.png" alt />
+      <img src="../../assets/logo_index.png" alt class="login-name01" />
       <el-form ref="form" status-icon :model="form" :rules="Formrules">
         <el-form-item prop="mobile">
           <el-input v-model="form.mobile" placeholder="请输入手机号"></el-input>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import local from '@/utils/local.js'
 export default {
   data () {
     const checkMobile = (rule, value, callback) => {
@@ -33,8 +34,8 @@ export default {
     }
     return {
       form: {
-        mobile: '',
-        code: ''
+        mobile: '18888888888',
+        code: '246810'
       },
       Formrules: {
         mobile: [
@@ -50,16 +51,27 @@ export default {
   },
   methods: {
     checksend () {
-      this.$refs['form'].validate(valid => {
+      this.$refs['form'].validate(async valid => {
+        // if (valid) {
+        //   this.$http
+        //     .post('authorizations', this.form)
+        //     .then(res => {
+        //       local.setUser(res.data.data)
+
+        //       this.$router.push('/')
+        //     })
+        //     .catch(() => {
+        //       this.$message.error('账号或者密码错误')
+        //     })
+        // }
         if (valid) {
-          this.$http
-            .post('authorizations', this.form)
-            .then(res => {
-              this.$router.push('/')
-            })
-            .catch(() => {
-              this.$message.error('账号或者密码错误')
-            })
+          try {
+            const { data: { data } } = await this.$http.post('authorizations', this.form)
+            local.setUser(data)
+            this.$router.push('/')
+          } catch (e) {
+            this.$message.error('账号或者密码错误')
+          }
         }
       })
     }
@@ -82,7 +94,7 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    img {
+    .login-name01 {
       width: 200px;
       display: block;
       margin: 0 auto 30px;
