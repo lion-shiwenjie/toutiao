@@ -1,6 +1,6 @@
 <template>
   <div class>
-    <img src="../../assets/404.png" alt class="error404" />
+    <img alt class="error404" src="../../assets/404.png" />
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {}
 </script>
 
-<style>
+<style scoped>
 .absoluteerror404 {
   position: absolute;
   width: 100%;

@@ -1,20 +1,20 @@
 <template>
   <div class="container">
     <el-card>
-      <img src="../../assets/logo_index.png" alt class="login-name01" />
-      <el-form ref="form" status-icon :model="form" :rules="Formrules">
+      <img alt class="login-name01" src="../../assets/logo_index.png" />
+      <el-form :model="form" :rules="Formrules" ref="form" status-icon>
         <el-form-item prop="mobile">
-          <el-input v-model="form.mobile" placeholder="请输入手机号"></el-input>
+          <el-input placeholder="请输入手机号" v-model="form.mobile"></el-input>
         </el-form-item>
         <el-form-item prop="code">
-          <el-input v-model="form.code" placeholder="请输入验证码" style="width:240px;margin-right:8px"></el-input>
+          <el-input placeholder="请输入验证码" style="width:240px;margin-right:8px" v-model="form.code"></el-input>
           <el-button>发送验证码</el-button>
         </el-form-item>
         <el-form-item>
           <el-checkbox :value="true">我已阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="width:100%" @click="checksend">登录</el-button>
+          <el-button @click="checksend" style="width:100%" type="primary">登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -34,7 +34,7 @@ export default {
     }
     return {
       form: {
-        mobile: '18888888888',
+        mobile: '19633333333',
         code: '246810'
       },
       Formrules: {
@@ -66,7 +66,9 @@ export default {
         // }
         if (valid) {
           try {
-            const { data: { data } } = await this.$http.post('authorizations', this.form)
+            const {
+              data: { data }
+            } = await this.$http.post('authorizations', this.form)
             local.setUser(data)
             this.$router.push('/')
           } catch (e) {
@@ -79,7 +81,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .container {
   width: 100%;
   height: 100%;

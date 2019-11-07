@@ -1,17 +1,17 @@
 <template>
   <el-container class="container-home">
     <el-aside :width="isOpen==true?'200px':'60px'" class="asidebar">
-      <div class="logo-home" :class="{'smallLogo':!isOpen}"></div>
+      <div :class="{'smallLogo':!isOpen}" class="logo-home"></div>
       <el-menu
-        default-active="/"
-        class="el-menu-vertical-demo"
-        background-color="#002033"
-        text-color="#fff"
-        active-text-color="#ffd04b"
-        style="border-right:none"
         :collapse="!isOpen"
         :collapse-transition="false"
+        :default-active="this.$route.path"
+        active-text-color="#ffd04b"
+        background-color="#002033"
+        class="el-menu-vertical-demo"
         router
+        style="border-right:none"
+        text-color="#fff"
       >
         <el-menu-item index="/">
           <i class="el-icon-s-home"></i>
@@ -45,17 +45,17 @@
     </el-aside>
     <el-container>
       <el-header class="header-home">
-        <i class="el-icon-s-fold icon" @click="toggleMenu"></i>
+        <i @click="toggleMenu" class="el-icon-s-fold icon"></i>
         <span class="text">江苏传智博客科技教育有限公司</span>
-        <el-dropdown  @command="handleClick">
+        <el-dropdown @command="handleClick">
           <span class="el-dropdown-link">
             <img :src="photo" alt class="img-icon" />
             <span class="login-name">{{name}}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting" command="setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock" command="logout" >退出登录</el-dropdown-item>
+            <el-dropdown-item command="setting" icon="el-icon-setting">个人设置</el-dropdown-item>
+            <el-dropdown-item command="logout" icon="el-icon-unlock">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -68,6 +68,7 @@
 
 <script>
 import local from '@/utils/local'
+import event from '@/eventBus.js'
 export default {
   data () {
     return {
@@ -80,6 +81,12 @@ export default {
     const user = local.getUser() || {}
     this.photo = user.photo
     this.name = user.name
+    event.$on('sendUserInfo', name => {
+      this.name = name
+    })
+    event.$on('sendUserInfoImg', photo => {
+      this.photo = photo
+    })
   },
   methods: {
     toggleMenu () {
@@ -96,9 +103,7 @@ export default {
       this[command]()
     }
   }
-
 }
-
 </script>
 
 <style lang="less" scoped>
